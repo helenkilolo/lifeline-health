@@ -4,8 +4,3 @@
 .env.development
 .env.test
 .env.production
-<<<<<<< HEAD
-
-=======
-.env
->>>>>>> 1645149e9 (Remove .env file and add to .gitignore)
