@@ -11,12 +11,14 @@ const SignUp = () => {
     e.preventDefault();
     setError('');
     setMessage('');
-  
-    console.log('Submitting form data:', formData);
-  
+
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
-      setMessage(response.data.message);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/signup`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setMessage(response.data.message || 'Signup successful!');
       setFormData({ name: '', email: '', password: '' });
     } catch (err) {
       console.error('Error details:', err.response?.data);
@@ -64,6 +66,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-
-

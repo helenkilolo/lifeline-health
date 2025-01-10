@@ -34,7 +34,13 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/wearables', wearableRoutes); // Register wearable integration routes
 app.use('/api/cultural-preference', culturalPreferenceRoutes);
 app.use('/api/admin', adminRoutes);
-
+app.use(
+  cors({
+    origin: ['https://your-vercel-domain.vercel.app', 'http://localhost:3000'], // Allow Vercel and local development
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  })
+);
 // Test Route
 app.get('/', (req, res) => {
   res.send('Welcome to Lifeline Mental Health Assistant API!');
