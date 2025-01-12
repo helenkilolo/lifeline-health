@@ -13,6 +13,9 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const MoodTracker = () => {
   const [moods, setMoods] = useState([]);
   const [mood, setMood] = useState('');
@@ -24,10 +27,6 @@ const MoodTracker = () => {
       const id = localStorage.getItem('id');
       const token = localStorage.getItem('token');
 
-      // Debugging localStorage
-      console.log('ID from localStorage:', id);
-      console.log('Token from localStorage:', token);
-
       if (!id || !token) {
         setError('User ID or Token is missing. Please log in again.');
         console.error('User ID or Token is missing.');
@@ -35,10 +34,9 @@ const MoodTracker = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/moods/${id}/moods`, {
+        const response = await axios.get(`${BASE_URL}/api/moods/${id}/moods`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log('Moods fetched successfully:', response.data);
         setMoods(response.data);
       } catch (error) {
         console.error('Error fetching moods:', error.response?.data || error.message);
@@ -53,10 +51,6 @@ const MoodTracker = () => {
     const userId = localStorage.getItem('id');
     const token = localStorage.getItem('token');
 
-    // Debugging localStorage values
-    console.log('User ID from localStorage:', userId);
-    console.log('Token from localStorage:', token);
-
     if (!userId || !token) {
       setError('User ID or Token is missing. Please log in again.');
       return;
@@ -68,22 +62,20 @@ const MoodTracker = () => {
     }
 
     try {
-      console.log('Adding mood:', mood);
       const response = await axios.post(
-        `http://localhost:5000/api/moods/${userId}/moods`,
-        { mood, notes: 'Optional Notes' }, // Pass mood and optional notes
+        `${BASE_URL}/api/moods/${userId}/moods`,
+        { mood, notes: 'Optional Notes' },
         {
-          headers: { Authorization: `Bearer ${token}` }, // Include token in the header
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      console.log('Mood added successfully:', response.data);
-      setMood(''); // Clear the input
-      const updatedMoods = await axios.get(`http://localhost:5000/api/moods/${userId}/moods`, {
+      const updatedMoods = await axios.get(`${BASE_URL}/api/moods/${userId}/moods`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       setMoods(updatedMoods.data);
+      setMood('');
       setError('');
     } catch (err) {
       console.error('Error adding mood:', err.response?.data || err.message);
@@ -132,12 +124,3 @@ const MoodTracker = () => {
 };
 
 export default MoodTracker;
-
-
-
-
-
-
-
-
-

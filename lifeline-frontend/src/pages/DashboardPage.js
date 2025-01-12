@@ -15,6 +15,9 @@ import { Chart as ChartJS, ArcElement, Tooltip as ChartTooltip, Legend } from 'c
 
 ChartJS.register(ArcElement, ChartTooltip, Legend);
 
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const DashboardPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +26,7 @@ const DashboardPage = () => {
     const fetchHistory = async () => {
       try {
         const token = localStorage.getItem('token'); // Retrieve JWT from local storage
-        const response = await axios.get('http://localhost:5000/api/sentiment/history', {
+        const response = await axios.get(`${BASE_URL}/api/sentiment/history`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setData(response.data);
@@ -126,4 +129,5 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+
 

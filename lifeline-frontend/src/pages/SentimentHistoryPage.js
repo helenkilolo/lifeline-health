@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const SentimentHistoryPage = () => {
   const [history, setHistory] = useState([]);
   const [error, setError] = useState('');
@@ -9,12 +12,14 @@ const SentimentHistoryPage = () => {
     const fetchHistory = async () => {
       try {
         const token = localStorage.getItem('token');
-        console.log('Token Sent:', token); // Verify token is present
-        const response = await axios.get('http://localhost:5000/api/sentiment/history', {
+        console.log('Token Sent:', token); // Debug token
+
+        const response = await axios.get(`${BASE_URL}/api/sentiment/history`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
         console.log('API Response:', response.data); // Debug API response
         setHistory(response.data);
       } catch (err) {
@@ -22,15 +27,14 @@ const SentimentHistoryPage = () => {
         setError('Failed to load sentiment history.');
       }
     };
-    
+
     fetchHistory();
   }, []);
 
-  // Add this useEffect to debug the updated `history` state
+  // Debug updated `history` state
   useEffect(() => {
     console.log('History State:', history); // Debug history state
   }, [history]);
-
 
   return (
     <div>

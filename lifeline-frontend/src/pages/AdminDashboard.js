@@ -3,6 +3,8 @@ import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow } fro
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [feedback, setFeedback] = useState([]);
@@ -18,10 +20,10 @@ const AdminDashboard = () => {
       try {
         const token = localStorage.getItem('token');
         const [userRes, feedbackRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/auth/users', {
+          axios.get(`${BASE_URL}/api/auth/users`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get('http://localhost:5000/api/admin/feedback', {
+          axios.get(`${BASE_URL}/api/admin/feedback`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -89,6 +91,7 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
 
 
 

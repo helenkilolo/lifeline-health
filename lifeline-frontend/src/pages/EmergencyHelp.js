@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Paper, Button } from '@mui/material';
 import axios from 'axios';
 
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const EmergencyHelp = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [highlightedHelpline, setHighlightedHelpline] = useState(null);
@@ -35,7 +38,7 @@ const EmergencyHelp = () => {
 
   const sendEmergencyNotification = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/emergency/notify', {
+      const response = await axios.post(`${BASE_URL}/api/emergency/notify`, {
         message: 'This is an emergency notification!',
       });
       alert(response.data.message || 'Emergency notification sent successfully!');
@@ -90,4 +93,5 @@ const EmergencyHelp = () => {
 };
 
 export default EmergencyHelp;
+
 

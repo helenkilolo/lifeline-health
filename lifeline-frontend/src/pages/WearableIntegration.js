@@ -1,17 +1,23 @@
 import React from 'react';
 import { Button, Typography, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 const WearableIntegration = () => {
+  const navigate = useNavigate();
+
   const connectFitbit = () => {
-    window.location.href = 'http://localhost:5000/api/wearables/fitbit/auth';
+    window.location.href = `${BASE_URL}/api/wearables/fitbit/auth`;
   };
 
   const connectGoogleFit = () => {
-    window.location.href = 'http://localhost:5000/api/wearables/googlefit/auth';
+    window.location.href = `${BASE_URL}/api/wearables/googlefit/auth`;
   };
 
   const manualDataEntry = () => {
-    window.location.href = '/manual-data-entry'; // Redirect to a manual data entry page
+    navigate('/manual-data-entry'); // Navigate to the manual data entry page
   };
 
   return (
@@ -42,4 +48,3 @@ const WearableIntegration = () => {
 };
 
 export default WearableIntegration;
-

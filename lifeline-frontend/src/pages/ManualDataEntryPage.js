@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, MenuItem } from '@mui/material';
 import axios from 'axios';
 
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const ManualDataEntryPage = () => {
   const [formData, setFormData] = useState({
     heartRate: '',
@@ -25,7 +28,7 @@ const ManualDataEntryPage = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:5000/api/wearables/manual',
+        `${BASE_URL}/api/wearables/manual`,
         formData,
         {
           headers: { Authorization: `Bearer ${token}` },

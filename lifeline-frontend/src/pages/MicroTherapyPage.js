@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Paper, CircularProgress, TextField } from '@mui/material';
 import axios from 'axios';
 
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const MicroTherapyPage = () => {
   const [therapySteps, setTherapySteps] = useState('');
   const [loading, setLoading] = useState(false);
@@ -14,7 +17,7 @@ const MicroTherapyPage = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:5000/api/therapy/session',
+        `${BASE_URL}/api/therapy/session`,
         { type },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -35,7 +38,7 @@ const MicroTherapyPage = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:5000/api/therapy/save',
+        `${BASE_URL}/api/therapy/save`,
         { type, steps },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -51,7 +54,7 @@ const MicroTherapyPage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:5000/api/therapy/feedback',
+        `${BASE_URL}/api/therapy/feedback`,
         { feedback },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -68,7 +71,7 @@ const MicroTherapyPage = () => {
   const fetchSavedSessions = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/therapy/history', {
+      const response = await axios.get(`${BASE_URL}/api/therapy/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSavedSessions(response.data);
@@ -193,6 +196,7 @@ const MicroTherapyPage = () => {
 };
 
 export default MicroTherapyPage;
+
 
 
 

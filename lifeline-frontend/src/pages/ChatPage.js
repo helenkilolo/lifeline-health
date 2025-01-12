@@ -10,6 +10,10 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 
+// Set the base URL dynamically based on the environment
+const BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -22,7 +26,7 @@ const ChatPage = () => {
       setLoading(true);
 
       try {
-        const response = await axios.post('http://localhost:5000/api/chat', {
+        const response = await axios.post(`${BASE_URL}/api/chat`, {
           message: input,
         });
 
@@ -137,6 +141,7 @@ const ChatPage = () => {
 };
 
 export default ChatPage;
+
 
 
 

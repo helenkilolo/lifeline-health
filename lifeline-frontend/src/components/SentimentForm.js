@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Paper, List, ListItem } from '@mui/material';
 import axios from 'axios';
 
+// Set the base URL dynamically based on the environment
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const SentimentForm = () => {
   const [text, setText] = useState('');
   const [result, setResult] = useState(null);
@@ -14,9 +17,9 @@ const SentimentForm = () => {
         alert('User is not logged in.');
         return;
       }
-  
+
       const response = await axios.post(
-        'http://localhost:5000/api/sentiment/analyze',
+        `${BASE_URL}/api/sentiment/analyze`,
         { text },
         {
           headers: {
@@ -31,8 +34,6 @@ const SentimentForm = () => {
       alert('Failed to analyze sentiment');
     }
   };
-  
-  
 
   return (
     <Paper elevation={3} sx={{ padding: 4, margin: '20px auto', maxWidth: 600 }}>
@@ -55,7 +56,7 @@ const SentimentForm = () => {
             <Typography variant="h6">Sentiment: {result.sentiment}</Typography>
             <Typography variant="body1" sx={{ marginTop: 2 }}>Coping Strategies:</Typography>
             <List>
-              {result.strategies.map((strategy, index) => (
+              {result.strategies?.map((strategy, index) => (
                 <ListItem key={index}>{strategy}</ListItem>
               ))}
             </List>
@@ -67,5 +68,3 @@ const SentimentForm = () => {
 };
 
 export default SentimentForm;
-
-

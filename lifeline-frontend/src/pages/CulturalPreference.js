@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
 
+// Set the base URL dynamically based on the environment
+const BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
 const CulturalPreference = () => {
   const [preference, setPreference] = useState('');
   const [userId, setUserId] = useState('');
 
   useEffect(() => {
-    // Get user data from localStorage or API
+    // Get user data from localStorage
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setUserId(user.id);
@@ -20,23 +24,23 @@ const CulturalPreference = () => {
       alert('Please select a preference.');
       return;
     }
-  
+
     try {
       const token = localStorage.getItem('token');
       console.log('User ID:', userId, 'Preference:', preference);
-  
+
       const response = await axios.post(
-        'http://localhost:5000/api/cultural-preference',
+        `${BASE_URL}/api/cultural-preference`,
         { userId, preference },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-  
+
       console.log('API Response:', response.data);
-  
+
       alert(response.data.message);
-  
+
       // Update localStorage with the new preference
       const user = JSON.parse(localStorage.getItem('user'));
       localStorage.setItem(
@@ -48,7 +52,6 @@ const CulturalPreference = () => {
       alert('Failed to update preference.');
     }
   };
-  
 
   return (
     <Box sx={{ padding: 4 }}>
@@ -74,4 +77,5 @@ const CulturalPreference = () => {
 };
 
 export default CulturalPreference;
+
 
