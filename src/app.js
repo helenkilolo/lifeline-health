@@ -36,7 +36,7 @@ app.use('/api/cultural-preference', culturalPreferenceRoutes);
 app.use('/api/admin', adminRoutes);
 app.use(
   cors({
-    origin: ['https://your-vercel-domain.vercel.app', 'http://localhost:3000'], // Allow Vercel and local development
+    origin: ['https://lifeline-frontend-woad.vercel.app/', 'http://localhost:3000'], // Allow Vercel and local development
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
